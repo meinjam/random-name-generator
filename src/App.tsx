@@ -5,6 +5,7 @@ import CopyIcon from './assets/copy.svg';
 
 const App = () => {
   const [userName, setUserName] = useState('');
+  const [tooltipClassName, setTooltipClassName] = useState('tooltip');
 
   const handleGenerateName = () => {
     const generatdNameOne = wordListOne[Math.floor(Math.random() * wordListOne.length)];
@@ -15,27 +16,12 @@ const App = () => {
   };
 
   const handleCopyToClipboard = () => {
-    const copyText = document.getElementById('myInput');
+    navigator.clipboard.writeText(userName);
 
-    // Select the text field
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-
-    // Copy the text inside the text field
-    navigator.clipboard.writeText(copyText.value);
-
-    // Alert the copied text
-    // alert('Copied the text: ' + copyText.value);
-    const bbbbbb = document.getElementById('tooltip');
-    console.log(bbbbbb);
-    if (bbbbbb.classList.contains('show')) {
-      bbbbbb.classList.remove('show');
-    } else {
-      bbbbbb.classList.add('show');
-    }
+    setTooltipClassName('tooltip show');
 
     setTimeout(() => {
-      bbbbbb.classList.remove('show');
+      setTooltipClassName('tooltip');
     }, 500);
   };
 
@@ -51,9 +37,7 @@ const App = () => {
           onChange={(e) => setUserName(e.target.value)}
         />
         {!userName ? '' : <img src={CopyIcon} alt='' onClick={handleCopyToClipboard} />}
-        <span className='tooltip' id='tooltip'>
-          Copied
-        </span>
+        <span className={tooltipClassName}>Copied</span>
       </div>
       <button onClick={handleGenerateName}>Generate</button>
     </div>
